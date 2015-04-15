@@ -4,6 +4,9 @@ require 'rspec'
 require_relative 'game_of_life.rb'
 
 describe "Game of Life" do
+  
+  let!(:world) { World.new }
+  
   context "World" do
     subject { World.new }
     
@@ -39,6 +42,7 @@ describe "Game of Life" do
       expect(subject).to respond_to(:alive)
       expect(subject).to respond_to(:x)
       expect(subject).to respond_to(:y)
+      expect(subject).to respond_to(:alive?)
     end
     
     it "should initialize properly" do
@@ -63,6 +67,12 @@ describe "Game of Life" do
     it "should initialize properly" do
       expect(subject.world.class).to eq World
       expect(subject.seeds.class).to eq Array
+    end
+    
+    it "should plant seeds properly" do
+      game = Game.new(world, [[1, 2], [0, 2]])
+      expect(world.cell_grid[1][2]).to be_alive
+      expect(world.cell_grid[0][2]).to be_alive
     end
   end
   
