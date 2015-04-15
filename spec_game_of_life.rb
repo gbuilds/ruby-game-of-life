@@ -21,6 +21,9 @@ describe "Game of Life" do
       expect(subject.cell_grid.is_a?(Array)).to be true
       subject.cell_grid.each do |row|
         expect(row.is_a?(Array)).to be true
+        row.each do |col|
+          expect(col.is_a?(Cell)).to be true
+        end
       end
     end
   end
