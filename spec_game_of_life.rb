@@ -35,5 +35,12 @@ describe "Game of Life" do
       expect(subject.class).to eq Cell
     end
     
+    it "should respond to proper methods" do
+      expect(subject).to respond_to(:alive)
+    end
+    
+    it "should initialize properly" do
+      expect(subject.alive).to be false
+    end
   end
 end
