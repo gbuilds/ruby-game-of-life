@@ -47,9 +47,17 @@ describe "Game of Life" do
       expect(subject.y).to eq 0
     end
   end
-    
+  
+  context "Game" do
+  end
+  
   context "Rules" do
+    
+    let!(:game) { Game.new }
+  
     context "Rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population" do
+      it "should kill a live cell with 1 live neighbor" do
+      end
     end
     
     context "Rule 2: Any live cell with two or three live neighbours lives on to the next generation" do
@@ -58,7 +66,7 @@ describe "Game of Life" do
     context "Rule 3: Any live cell with more than three live neighbours dies, as if by overcrowding" do
     end
     
-    context "Rule 4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction" do
+    context "Rule 4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproductiong" do
     end
   end
 end

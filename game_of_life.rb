@@ -1,5 +1,8 @@
 # basic file
 
+class Game
+end
+
 class World
   attr_accessor :rows, :cols, :cell_grid
   
