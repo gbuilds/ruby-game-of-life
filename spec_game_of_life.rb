@@ -19,6 +19,17 @@ describe "Game of Life" do
     
     it "should create proper cell grid on initialize" do
       expect(subject.cell_grid.is_a?(Array)).to be true
+      subject.cell_grid.each do |row|
+        expect(row.is_a?(Array)).to be true
+      end
+    end
+  end
+  
+  context "Cell" do
+    subject { Cell.new }
+    
+    it "should create a new cell object" do
+      expect(subject.class).to eq Cell
     end
     
   end
