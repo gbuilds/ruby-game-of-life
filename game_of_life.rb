@@ -1,6 +1,11 @@
 # basic file
 
 class Game
+  
+  def initalize(world, seeds)
+    @world
+    @seeds
+  end
 end
 
 class World

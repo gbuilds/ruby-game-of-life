@@ -49,6 +49,19 @@ describe "Game of Life" do
   end
   
   context "Game" do
+    subject { Game.new }
+    
+    it "should create a new game object" do
+      expect(subject.class).to eq Game
+    end
+    
+    it "should respond to proper methods" do
+      expect(subject).to respond_to(:world)
+      expect(subject).to respond_to(:seeds)
+    end
+    
+    it "should initialize properly" do
+    end
   end
   
   context "Rules" do
