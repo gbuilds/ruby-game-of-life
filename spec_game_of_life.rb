@@ -14,6 +14,11 @@ describe "Game of Life" do
     it "should respond to proper methods" do
       expect(subject).to respond_to(:rows)
       expect(subject).to respond_to(:cols)
+      expect(subject).to respond_to(:cell_grid)
+    end
+    
+    it "should create proper cell grid on initialize" do
+      expect(subject.cell_grid.is_a?(Array)).to be true
     end
     
   end
