@@ -61,6 +61,8 @@ describe "Game of Life" do
     end
     
     it "should initialize properly" do
+      expect(subject.world.class).to eq World
+      expect(subject.seeds.class).to eq Array
     end
   end
   

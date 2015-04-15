@@ -1,10 +1,11 @@
 # basic file
 
 class Game
+  attr_accessor :world, :seeds
   
-  def initalize(world, seeds)
-    @world
-    @seeds
+  def initialize(world=World.new, seeds=[])
+    @world = world
+    @seeds = seeds
   end
 end
 
