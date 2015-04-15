@@ -1,0 +1,1 @@
+Conway's game of life implemented with TDD, Rspec, following SDuplic's tutorial on Youtube.
