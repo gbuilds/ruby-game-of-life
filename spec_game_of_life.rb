@@ -69,7 +69,7 @@ describe "Game of Life" do
     
     it "should detect a neighbor to the north-west" do
       subject.cell_grid[0][0].alive = true
-      expect(subjcet.live_neighbors_around_cell(cell).count).to eq 1
+      expect(subject.live_neighbors_around_cell(cell).count).to eq 1
     end
     
   end
@@ -126,9 +126,9 @@ describe "Game of Life" do
     context "Rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population" do
       it "should kill a live cell with 1 live neighbor" do
         game = Game.new(world, [[1, 0], [2, 0]])
-        # game.tick!
-        expect(world.cell_grid[1][0]).to be_alive
-        expect(world.cell_grid[2][0]).to be_alive
+        game.tick!
+        expect(world.cell_grid[1][0]).to be_dead
+        expect(world.cell_grid[2][0]).to be_dead
       end
     end
     
