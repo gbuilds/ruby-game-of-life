@@ -19,11 +19,23 @@ class World
   def initialize(rows=3, cols=3)
     @rows = rows
     @cols = cols
+    
+    # [[Cell.new, Cell.new, Cell.new],
+    #  [Cell.new, Cell.new, Cell.new],
+    #  [Cell.new, Cell.new, Cell.new]]
+    
+    
     @cell_grid = Array.new(rows) do |row| 
         Array.new(cols) do |col|
           Cell.new(col, row)
         end
     end
+  end
+  
+  def live_neighbors_around_cell(cell)
+    live_neighbors = []
+    
+    # It detects a neighbor to the north
   end
  
 end
@@ -40,5 +52,9 @@ class Cell
   
   def alive?
     alive
+  end
+  
+  def dead?
+    !alive
   end
 end

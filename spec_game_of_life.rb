@@ -18,6 +18,7 @@ describe "Game of Life" do
       expect(subject).to respond_to(:rows)
       expect(subject).to respond_to(:cols)
       expect(subject).to respond_to(:cell_grid)
+      expect(subject).to respond_to(:live_neighbors_around_cell)
     end
     
     it "should create proper cell grid on initialize" do
@@ -29,6 +30,13 @@ describe "Game of Life" do
         end
       end
     end
+    
+    it "should detect a neighbor to the north" do
+      expect(subject.cell_grid[0][1]).to be_dead
+      subject.cell_grid[0][1].alive = true
+      expect(subject.cell_grid[0][1]).to be_alive
+    end
+    
   end
   
   context "Cell" do
@@ -82,6 +90,11 @@ describe "Game of Life" do
   
     context "Rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population" do
       it "should kill a live cell with 1 live neighbor" do
+        game = Game.new(world, [[1, 0], [2, 0]])
+        game.tick!
+        expect(game.cell_grid[1, 0]).to be_dead
+        expect(game.cell_grid[2, 0]).to be_dead
+        expect(subject.live_neighbors_around_cell(subject.cell_grid[1, 1]).count).to eq 1
       end
     end
     
