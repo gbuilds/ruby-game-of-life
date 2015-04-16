@@ -36,6 +36,27 @@ class World
     live_neighbors = []
     
     # It detects a neighbor to the north
+    if cell.y > 0
+      candidate = self.cell_grid[cell.y - 1][cell.x]
+      live_neighbors << candidate if candidate.alive?
+    end
+    
+    if cell.y < self.cell_grid.length
+      candidate = self.cell_grid[cell.y + 1][cell.x]
+      live_neighbors << candidate if candidate.alive?
+    end
+    
+    if cell.x > 0
+      candidate = self.cell_grid[cell.y][cell.x + 1]
+      live_neighbors << candidate if candidate.alive?
+    end
+    
+    if cell.x < self.cell_grid[0].length
+      candidate = self.cell_grid[cell.y][cell.x - 1]
+      live_neighbors << candidate if candidate.alive?
+    end
+    
+    live_neighbors
   end
  
 end
