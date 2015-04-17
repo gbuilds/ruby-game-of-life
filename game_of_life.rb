@@ -11,78 +11,103 @@ class Game
       world.cell_grid[seed[0]][seed[1]].alive = true
     end
   end
+  
+  def tick!
+      next_round_live_cells = []
+      next_round_dead_cells = []
+    
+    world.cells.each do |cell|
+      # Rule 1
+      if cell.alive? and world.live_neighbors_around_cell(cell).count < 2
+        next_round_dead_cells << cell
+      end
+      # Rule 2
+      if cell.alive? and ([2, 3].include? world.live_neighbors_around_cell(cell).count)
+        next_round_live_cells << cell
+      end
+      # Rule 3
+      
+      # Rule 4
+    end
+    
+    next_round_dead_cells.each do |cell|
+      cell.die!
+    end 
+    next_round_live_cells.each do |cell|
+      cell.revive!
+    end
+  end
+  
 end
 
 class World
-  attr_accessor :rows, :cols, :cell_grid
+  attr_accessor :rows, :cols, :cell_grid, :cells
   
   def initialize(rows=3, cols=3)
     @rows = rows
     @cols = cols
+    @cells = []
     
     # [[Cell.new, Cell.new, Cell.new],
     #  [Cell.new, Cell.new, Cell.new],
     #  [Cell.new, Cell.new, Cell.new]]
     
-    
+    # cell.x is column value
+    # cell.y is row value
+    # world.cell_grid[y][x] gets a cell
+        
     @cell_grid = Array.new(rows) do |row| 
-        Array.new(cols) do |col|
-          Cell.new(col, row)
-        end
+                   Array.new(cols) do |col|
+                   cell = Cell.new(col, row)
+                   @cells << cell
+                   cell
+                 end
     end
   end
   
   def live_neighbors_around_cell(cell)
     live_neighbors = []
-    
+  
+    # It detects a neighbor to the north-east
+    if cell.y > 0 and cell.x < ( cols - 1 )
+      candidate = self.cell_grid[cell.y - 1][cell.x + 1]
+      live_neighbors << candidate if candidate.alive?
+    end
+    # It detects a neighbor to the south-east
+    if cell.y < (rows - 1) and cell.x < (cols - 1)
+      candidate = self.cell_grid[cell.y + 1][cell.x + 1]
+      live_neighbors << candidate if candidate.alive?
+    end
+    # It detects a neighbor to the south-west
+    if cell.y < (rows - 1) and cell.x > 0
+      candidate = self.cell_grid[cell.y + 1][cell.x - 1]
+      live_neighbors << candidate if candidate.alive?
+    end
+    # It detects a neighbor to the north-west
+    if cell.y > 0 and cell.x > 0
+      candidate = self.cell_grid[cell.y - 1][cell.x - 1]
+      live_neighbors << candidate if candidate.alive?
+    end
     # It detects a neighbor to the north
     if cell.y > 0
       candidate = self.cell_grid[cell.y - 1][cell.x]
       live_neighbors << candidate if candidate.alive?
-    end
-    
-    # It detects a neighbor to the north-east
-    if cell.y > 0 and cell.x < self.cell_grid[0].length
-      candidate = self.cell_grid[cell.y - 1][cell.x + 1]
-      live_neighbors << candidate if candidate.alive?
-    end
-    
+    end  
     # It detects a neighbor to the east
-    if cell.x > 0
+    if cell.x < (cols - 1)
       candidate = self.cell_grid[cell.y][cell.x + 1]
       live_neighbors << candidate if candidate.alive?
     end
-    
-    # It detects a neighbor to the south-east
-    if cell.x < rows and cell.y < cols
-      candidate = self.cell_grid[cell.y + 1][cell.x + 1]
-      live_neighbors << candidate if candidate.alive?
-    end
-    
     # It detects a neighbor to the south
-    if cell.y < self.cell_grid.length
+    if cell.y < (cols - 1 )
       candidate = self.cell_grid[cell.y + 1][cell.x]
       live_neighbors << candidate if candidate.alive?
     end
-    
-    # It detects a neighbor to the south-west
-    if cell.y < rows and cell.x > 0
-      candidate = self.cell_grid[cell.y + 1][cell.x - 1]
-      live_neighbors << candidate if candidate.alive?
-    end
-    
     # It detects a neighbor to the west
-    if cell.x < self.cell_grid[0].length
+    if cell.x > 0
       candidate = self.cell_grid[cell.y][cell.x - 1]
       live_neighbors << candidate if candidate.alive?
     end
-    
-    # It detects a neighbor to the north-west
-    if cell.x > 0 and cell.y > 0
-      candidate = self.cell_grid[cell.y - 1][cell.x - 1]
-      live_neighbors << candidate if candidate.alive?
-    end
-    
     live_neighbors
   end
  
@@ -104,5 +129,13 @@ class Cell
   
   def dead?
     !alive
+  end
+  
+  def die!
+    @alive = false
+  end
+  
+  def revive!
+    @alive = true
   end
 end

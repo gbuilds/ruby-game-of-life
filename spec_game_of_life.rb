@@ -20,6 +20,7 @@ describe "Game of Life" do
       expect(subject).to respond_to(:cols)
       expect(subject).to respond_to(:cell_grid)
       expect(subject).to respond_to(:live_neighbors_around_cell)
+      expect(subject).to respond_to(:cells)
     end
     
     it "should create proper cell grid on initialize" do
@@ -32,46 +33,42 @@ describe "Game of Life" do
       end
     end
     
+    it "should add all cells to cells array" do
+      expect(subject.cells.count).to eq 9
+    end
+    
     it "should detect a neighbor to the north" do
       subject.cell_grid[cell.y - 1][cell.x].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
-    end
-        
+    end 
     it "should detect a neighbor to the north-east" do
       subject.cell_grid[cell.y - 1][cell.x + 1].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
     end
-    
     it "should detect a neighbor to the east" do
-      subject.cell_grid[1][2].alive = true
+      subject.cell_grid[cell.y][cell.x + 1].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
     end
-    
     it "should detect a neighbor to the south-east" do
-      subject.cell_grid[2][2].alive = true
+      subject.cell_grid[cell.y + 1][cell.x + 1].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
     end
-    
     it "should detect a neighbor to the south" do
-      subject.cell_grid[2][1].alive = true
+      subject.cell_grid[cell.y + 1][cell.x].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
     end
-    
     it "should detect a neighbor to the south-west" do
-      subject.cell_grid[2][0].alive = true
+      subject.cell_grid[cell.y + 1][cell.x - 1].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
     end
-    
     it "should detect a neighbor to the west" do
-      subject.cell_grid[1][0].alive = true
+      subject.cell_grid[cell.y][cell.x - 1].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
     end
-    
     it "should detect a neighbor to the north-west" do
-      subject.cell_grid[0][0].alive = true
+      subject.cell_grid[cell.y - 1][cell.x - 1].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
     end
-    
   end
   
   context "Cell" do
@@ -86,6 +83,7 @@ describe "Game of Life" do
       expect(subject).to respond_to(:x)
       expect(subject).to respond_to(:y)
       expect(subject).to respond_to(:alive?)
+      expect(subject).to respond_to(:die!)
     end
     
     it "should initialize properly" do
@@ -124,11 +122,23 @@ describe "Game of Life" do
     let!(:game) { Game.new }
   
     context "Rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population" do
+      it "should kill a live cell with no neighbors" do
+        game.world.cell_grid[1][1].alive = true
+        game.tick!
+        expect(game.world.cell_grid[1][1]).to be_dead
+      end
+      
       it "should kill a live cell with 1 live neighbor" do
         game = Game.new(world, [[1, 0], [2, 0]])
         game.tick!
         expect(world.cell_grid[1][0]).to be_dead
         expect(world.cell_grid[2][0]).to be_dead
+      end
+      
+      it "doesn't kill a live cell with 2 neighbors" do
+        game = Game.new(world, [[0, 1], [1, 1], [2, 1]])
+        game.tick!
+        expect(world.cell_grid[1][1]).to be_alive
       end
     end
     
