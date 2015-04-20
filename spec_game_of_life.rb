@@ -21,6 +21,8 @@ describe "Game of Life" do
       expect(subject).to respond_to(:cell_grid)
       expect(subject).to respond_to(:live_neighbors_around_cell)
       expect(subject).to respond_to(:cells)
+      expect(subject).to respond_to(:randomly_populate)
+      expect(subject).to respond_to(:live_cells)
     end
     
     it "should create proper cell grid on initialize" do
@@ -68,6 +70,17 @@ describe "Game of Life" do
     it "should detect a neighbor to the north-west" do
       subject.cell_grid[cell.y - 1][cell.x - 1].alive = true
       expect(subject.live_neighbors_around_cell(cell).count).to eq 1
+    end
+
+    it "should return all live cells" do
+      subject.cell_grid[1][1].alive = true
+      expect(subject.live_cells.count).to eq 1
+    end
+
+    it "should randomly_populate the world" do
+      expect(subject.live_cells.count).to eq 0
+      subject.randomly_populate
+      expect(subject.live_cells.count).to_not eq 0
     end
   end
   

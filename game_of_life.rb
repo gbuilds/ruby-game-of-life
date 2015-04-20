@@ -72,6 +72,18 @@ class World
     end
   end
   
+  def live_cells
+    cells.select { |cell| cell.alive }
+  end
+
+  def randomly_populate
+    cells.each do |cell|
+      cell.alive = [ true, false ].sample
+    end
+  end
+
+
+
   def live_neighbors_around_cell(cell)
     live_neighbors = []
   
@@ -106,7 +118,7 @@ class World
       live_neighbors << candidate if candidate.alive?
     end
     # It detects a neighbor to the south
-    if cell.y < (cols - 1 )
+    if cell.y < (rows - 1 )
       candidate = self.cell_grid[cell.y + 1][cell.x]
       live_neighbors << candidate if candidate.alive?
     end
