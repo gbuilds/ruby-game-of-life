@@ -10,6 +10,8 @@ class Game
     seeds.each do |seed|
       world.cell_grid[seed[0]][seed[1]].alive = true
     end
+
+    # seeds = [[y, x], [y, x], [y, x]]
   end
   
   def tick!
@@ -26,8 +28,13 @@ class Game
         next_round_live_cells << cell
       end
       # Rule 3
-      
+      if cell.alive? and world.live_neighbors_around_cell(cell).count > 3
+        next_round_dead_cells << cell
+      end      
       # Rule 4
+      if cell.dead? and world.live_neighbors_around_cell(cell).count == 3
+        next_round_live_cells << cell
+      end
     end
     
     next_round_dead_cells.each do |cell|
